@@ -14,7 +14,7 @@ Actual implementations can be found here:
 ## 1. How it is supposed to work.
 
 Well, first we need to describe the music we are looking for: Title, artist, 
-album, cover, genre, soundtrack featuring the music.
+album, cover, genre, soundtrack and featured guests.
 
 ```php
 use WishgranterProject\MusicProbe\Description;
