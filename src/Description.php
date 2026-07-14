@@ -218,8 +218,8 @@ class Description implements DescriptionInterface
             !empty($array['title'])      ? $array['title']              : '',
             !empty($array['artist'])     ? (array) $array['artist']     : [],
             !empty($array['featuring'])  ? (array) $array['featuring']  : [],
-            !empty($array['album'])      ? $array['album']              : '',
-            !empty($array['cover'])      ? $array['cover']              : '',
+            !empty($array['album'])      ? $array['album']              : null,
+            !empty($array['cover'])      ? $array['cover']              : null,
             !empty($array['soundtrack']) ? (array) $array['soundtrack'] : [],
             !empty($array['genre'])      ? (array) $array['genre']      : [],
         );
