@@ -3,41 +3,78 @@
 namespace WishgranterProject\MusicProbe;
 
 /**
- * Describes a piece of music or album.
+ * Describes a piece of music.
  */
 interface DescriptionInterface
 {
-    /**
-     * @param string $title
-     *   The title of the music or album.
-     * @param string|string[] $artist
-     *   The performing artist(s).
-     * @param string $album
-     *   The album associated to this music.
-     * @param string $cover
-     *   The artist that owns the music, in case the performing $artist is just
-     *   doing a cover.
-     * @param string|string[] $soundtrack
-     *   Piece(s) of intelectual property that feature the music, like a movie
-     *   or game.
-     * @param string|string[] $genre
-     *   Genre(s) that fit the music description.
-     */
-    public function __construct(
-        string $title,
-        $artist = [],
-        string $album = '',
-        $cover = '',
-        $soundtrack = [],
-        $genre = []
-    );
-
     /**
      * Returns the description as a human readable string.
      *
      * @return string
      */
     public function __toString();
+
+    /**
+     * Returns the title of the music.
+     *
+     * @return string
+     *   The title.
+     */
+    public function getTitle(): string;
+
+    /**
+     * Returns the performing artist(s).
+     *
+     * @return array
+     *   Array with the name of the artists/bands.
+     */
+    public function getArtist(): array;
+
+    /**
+     * Returns featured artist(s).
+     *
+     * Helpful when trying to single out a performance.
+     *
+     * @return array
+     *   Array with the name of the artists/bands.
+     */
+    public function getFeaturing(): array;
+
+    /**
+     * Returns the album associated to this music.
+     *
+     * @return string|null
+     *   The name of the album.
+     */
+    public function getAlbum(): ?string;
+
+    /**
+     * Returns the artist that owns the music.
+     *
+     * Useful when the performing $artist is just doing a cover.
+     *
+     * @return string|null
+     *   The original artist.
+     */
+    public function getCover(): ?string;
+
+    /**
+     * Returns piece(s) of intelectual property that feature the music.
+     *
+     * Like a movie or game.
+     *
+     * @return array
+     *   Media featuring the music.
+     */
+    public function getSoundtrack(): array;
+
+    /**
+     * Retunrs genre(s) that fit the music description.
+     *
+     * @return array
+     *   The musical genres.
+     */
+    public function getGenre(): array;
 
     /**
      * Returns an array representation of the object.
@@ -50,7 +87,7 @@ interface DescriptionInterface
     public function toArray();
 
     /**
-     * Instantiate an object out of an associative array.
+     * Instantiate a new object out of an associative array.
      *
      * @param array $array
      *

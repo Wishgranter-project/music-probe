@@ -8,19 +8,42 @@ namespace WishgranterProject\MusicProbe;
 class Resource implements ResourceInterface
 {
     /**
-     * {@inheritdoc}
+     * Constructor.
+     *
+     * @param string $probeId
+     *   The id of the probe that instantiated this object.
+     *   See WishgranterProject\MusicProbe\ProbeInterface::getId()
+     * @param string $sourceId
+     *   The service that provides this media to play.
+     *   See WishgranterProject\MusicProbe\ProbeInterface::getSourceId()
+     * @param string $id
+     *   ID within the source's system.
+     * @param string|null $title
+     *   Human readable string describing the resource.
+     * @param string|null $artist
+     *   The performing artist, if available.
+     * @param string|null $description
+     *   Human readable string describing the resource.
+     * @param string|null $thumbnail
+     *   An URL to a thumbnail picture, if available.
+     * @param string|null $src
+     *   An URL to a playable multimedia.
+     *   Like a mp4 file for example.
+     * @param string|null $href
+     *   An URL to the resource's web page.
      */
     public function __construct(
         protected string $probeId,
         protected string $sourceId,
         protected string $id,
-        protected ?string $title,
-        protected ?string $artist,
-        protected ?string $description = '',
-        protected ?string $thumbnail = '',
-        protected ?string $src = '',
-        protected ?string $href = ''
+        protected string $title,
+        protected null|string|array $artist,
+        protected null|string $description = '',
+        protected null|string $thumbnail = '',
+        protected null|string $src = '',
+        protected null|string $href = '',
     ) {
+        $this->artist = (array) $artist;
     }
 
     /**
@@ -51,6 +74,78 @@ class Resource implements ResourceInterface
     public function __isset($var)
     {
         return isset($this->{$var});
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getProbeId(): string
+    {
+        return $this->probeId;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getSourceId(): string
+    {
+        return $this->sourceId;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getId(): ?string
+    {
+        return $this->id;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getArtist(): array
+    {
+        return $this->artist;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDescription(): ?string
+    {
+        return (string) $this->description;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getThumbnail(): ?string
+    {
+        return (string) $this->thumbnail;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getSrc(): ?string
+    {
+        return (string) $this->src;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getHref(): ?string
+    {
+        return (string) $this->href;
     }
 
     /**
