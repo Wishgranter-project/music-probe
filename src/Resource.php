@@ -132,7 +132,7 @@ class Resource implements ResourceInterface
      */
     public function getDescription(): ?string
     {
-        return (string) $this->description;
+        return $this->description;
     }
 
     /**
@@ -140,7 +140,7 @@ class Resource implements ResourceInterface
      */
     public function getThumbnail(): ?string
     {
-        return (string) $this->thumbnail;
+        return $this->thumbnail;
     }
 
     /**
@@ -148,7 +148,7 @@ class Resource implements ResourceInterface
      */
     public function getSrc(): ?string
     {
-        return (string) $this->src;
+        return $this->src;
     }
 
     /**
@@ -156,7 +156,7 @@ class Resource implements ResourceInterface
      */
     public function getHref(): ?string
     {
-        return (string) $this->href;
+        return $this->href;
     }
 
     /**
