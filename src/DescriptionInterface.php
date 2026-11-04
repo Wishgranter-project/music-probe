@@ -84,7 +84,7 @@ interface DescriptionInterface
      * @return array
      *   The object as an array.
      */
-    public function toArray();
+    public function toArray(): array;
 
     /**
      * Instantiate a new object out of an associative array.
