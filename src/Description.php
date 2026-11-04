@@ -180,7 +180,7 @@ class Description implements DescriptionInterface
                 : reset($this->artist);
         }
 
-        if ($this->artist) {
+        if ($this->featuring) {
             $array['featuring'] = count($this->featuring) > 1
                 ? $this->featuring
                 : reset($this->featuring);
