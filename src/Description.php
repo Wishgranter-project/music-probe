@@ -49,6 +49,9 @@ class Description implements DescriptionInterface
         $this->featuring  = array_filter((array) $featuring);
         $this->soundtrack = array_filter((array) $soundtrack);
         $this->genre      = array_filter((array) $genre);
+
+        $this->album      = (string) $album;
+        $this->cover      = (string) $cover;
     }
 
     /**
@@ -200,37 +203,37 @@ class Description implements DescriptionInterface
     {
         $array = [];
 
-        if ($this->title) {
+        if (!empty($this->title)) {
             $array['title'] = $this->title;
         }
 
-        if ($this->artist) {
+        if (!empty($this->artist)) {
             $array['artist'] = count($this->artist) > 1
                 ? $this->artist
                 : reset($this->artist);
         }
 
-        if ($this->featuring) {
+        if (!empty($this->featuring)) {
             $array['featuring'] = count($this->featuring) > 1
                 ? $this->featuring
                 : reset($this->featuring);
         }
 
-        if ($this->album) {
+        if (!empty($this->album)) {
             $array['album'] = $this->album;
         }
 
-        if ($this->cover) {
+        if (!empty($this->cover)) {
             $array['cover'] = $this->cover;
         }
 
-        if ($this->soundtrack) {
+        if (!empty($this->soundtrack)) {
             $array['soundtrack'] = count($this->soundtrack) > 1
                 ? $this->soundtrack
                 : reset($this->soundtrack);
         }
 
-        if ($this->genre) {
+        if (!empty($this->genre)) {
             $array['genre'] = count($this->genre) > 1
                 ? $this->genre
                 : reset($this->genre);
@@ -248,8 +251,8 @@ class Description implements DescriptionInterface
             !empty($array['title'])      ? $array['title']              : '',
             !empty($array['artist'])     ? (array) $array['artist']     : [],
             !empty($array['featuring'])  ? (array) $array['featuring']  : [],
-            !empty($array['album'])      ? $array['album']              : null,
-            !empty($array['cover'])      ? $array['cover']              : null,
+            !empty($array['album'])      ? $array['album']              : '',
+            !empty($array['cover'])      ? $array['cover']              : '',
             !empty($array['soundtrack']) ? (array) $array['soundtrack'] : [],
             !empty($array['genre'])      ? (array) $array['genre']      : [],
         );

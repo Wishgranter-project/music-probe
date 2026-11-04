@@ -39,7 +39,7 @@ class Resource implements ResourceInterface
     public function __construct(
         protected string $probeId,
         protected string $sourceId,
-        protected ?string $id,
+        protected null|string $id,
         protected string $title,
         protected null|string|array $artist,
         protected null|string $album = '',
@@ -48,7 +48,12 @@ class Resource implements ResourceInterface
         protected null|string $src = '',
         protected null|string $href = '',
     ) {
-        $this->artist = (array) $artist;
+        $this->artist      = array_filter((array) $artist);
+        $this->album       = (string) $album;
+        $this->description = (string) $description;
+        $this->thumbnail   = (string) $thumbnail;
+        $this->src         = (string) $src;
+        $this->href        = (string) $href;
     }
 
     /**
@@ -219,14 +224,14 @@ class Resource implements ResourceInterface
         return new self(
             !empty($array['probeId'])     ? $array['probeId']     : '',
             !empty($array['sourceId'])    ? $array['sourceId']    : '',
-            !empty($array['id'])          ? $array['id']          : null,
+            !empty($array['id'])          ? $array['id']          : '',
             !empty($array['title'])       ? $array['title']       : '',
-            !empty($array['artist'])      ? $array['artist']      : null,
-            !empty($array['album'])       ? $array['album']       : null,
-            !empty($array['description']) ? $array['description'] : null,
-            !empty($array['thumbnail'])   ? $array['thumbnail']   : null,
-            !empty($array['src'])         ? $array['src']         : null,
-            !empty($array['href'])        ? $array['href']        : null,
+            !empty($array['artist'])      ? $array['artist']      : '',
+            !empty($array['album'])       ? $array['album']       : '',
+            !empty($array['description']) ? $array['description'] : '',
+            !empty($array['thumbnail'])   ? $array['thumbnail']   : '',
+            !empty($array['src'])         ? $array['src']         : '',
+            !empty($array['href'])        ? $array['href']        : '',
         );
     }
 }
