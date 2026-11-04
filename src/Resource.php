@@ -16,7 +16,7 @@ class Resource implements ResourceInterface
      * @param string $sourceId
      *   The service that provides this media to play.
      *   See WishgranterProject\MusicProbe\ProbeInterface::getSourceId()
-     * @param string $id
+     * @param string|null $id
      *   ID within the source's system.
      * @param string $title
      *   Human readable string describing the resource.
@@ -37,7 +37,7 @@ class Resource implements ResourceInterface
     public function __construct(
         protected string $probeId,
         protected string $sourceId,
-        protected string $id,
+        protected ?string $id,
         protected string $title,
         protected null|string|array $artist,
         protected null|string $album = '',
