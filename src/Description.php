@@ -43,10 +43,10 @@ class Description implements DescriptionInterface
         $this->validateSringOrArrayOfStrings($soundtrack, 'Soundtrack');
         $this->validateSringOrArrayOfStrings($genre, 'Genre');
 
-        $this->artist     = (array) $artist;
-        $this->featuring  = (array) $featuring;
-        $this->soundtrack = (array) $soundtrack;
-        $this->genre      = (array) $genre;
+        $this->artist     = array_filter((array) $artist);
+        $this->featuring  = array_filter((array) $featuring);
+        $this->soundtrack = array_filter((array) $soundtrack);
+        $this->genre      = array_filter((array) $genre);
     }
 
     /**
@@ -85,23 +85,51 @@ class Description implements DescriptionInterface
     public function __toString(): string
     {
         $array = [];
+        $core  = [];
 
-        if ($this->title) {
-            $array['title'] = $this->title;
+        if ($this->cover) {
+            if ($this->artist) {
+                $core['artist'] = implode(', ', $this->artist) . ' cover of';
+            }
+
+            if ($this->title) {
+                $core['title'] = $this->title;
+            }
+
+            if ($this->album) {
+                $core['album'] = $this->title
+                    ? "($this->album)"
+                    : $this->album;
+            }
+
+            $core['cover'] = 'by ' . $this->cover;
+        } else {
+            if ($this->title) {
+                $core['title'] = $this->title . ' by';
+            }
+
+            if ($this->artist) {
+                $core['artist'] = implode(', ', $this->artist);
+            }
+
+            if ($this->album) {
+                $core['album'] = $this->title
+                    ? "($this->album)"
+                    : $this->album;
+            }
         }
+        $array['core'] = implode(' ', $core);
 
-        if ($this->artist) {
-            $array['artist'] = $this->cover
-                ? 'cover by ' . $this->cover
-                : implode(', ', $this->artist);
-        }
-
-        if ($this->album) {
-            $array['album'] = $this->album;
+        if ($this->featuring) {
+            $array['featuring'] = 'featuring ' . implode(', ', $this->featuring);
         }
 
         if ($this->soundtrack) {
             $array['soundtrack'] = implode(', ', $this->soundtrack) . ' soundtrack';
+        }
+
+        if ($this->genre) {
+            $array['genre'] = implode(', ', $this->genre);
         }
 
         return implode(', ', $array);
