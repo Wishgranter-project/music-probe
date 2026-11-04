@@ -38,10 +38,10 @@ class Description implements DescriptionInterface
         protected null|string|array $soundtrack = [],
         protected null|string|array $genre = [],
     ) {
-        $this->validateSringOrArrayOfStrings($artist, 'Artist');
-        $this->validateSringOrArrayOfStrings($featuring, 'Featuring');
-        $this->validateSringOrArrayOfStrings($soundtrack, 'Soundtrack');
-        $this->validateSringOrArrayOfStrings($genre, 'Genre');
+        $this->validateStringOrArrayOfStrings($artist, 'Artist');
+        $this->validateStringOrArrayOfStrings($featuring, 'Featuring');
+        $this->validateStringOrArrayOfStrings($soundtrack, 'Soundtrack');
+        $this->validateStringOrArrayOfStrings($genre, 'Genre');
 
         $this->artist     = array_filter((array) $artist);
         $this->featuring  = array_filter((array) $featuring);
@@ -262,7 +262,7 @@ class Description implements DescriptionInterface
      * @param string $label
      *   Human readable string to produce an error message.
      */
-    protected function validateSringOrArrayOfStrings(mixed $value, string $label): void
+    protected function validateStringOrArrayOfStrings(mixed $value, string $label): void
     {
         if (!(empty($value) || is_string($value) || Validation::is($value, 'string[]'))) {
             throw new \InvalidArgumentException($label . ' must be a string or array of strings');
