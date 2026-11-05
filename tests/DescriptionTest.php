@@ -66,4 +66,50 @@ class DescriptionTest extends TestCase
         $this->assertStringContainsStringIgnoringCase($artist, $description);
         $this->assertStringContainsStringIgnoringCase($soundtrack, $description);
     }
+
+    public function testSerializationAndInstantiation()
+    {
+        $array = [
+            'title'  => 'Fade to Black',
+            'artist' => 'Metallica',
+            'album'  => 'Ride the Lightning',
+            'genre'  => 'Metal',
+        ];
+
+        $description = Description::createFromArray($array);
+        $this->assertEquals($array, $description->toArray());
+
+        //------------
+
+        $array = [
+            'title'     => 'Somebody That I Used To Know',
+            'artist'    => 'Gotye',
+            'featuring' => ['The Basics', 'Monty Cotton'],
+        ];
+
+        $description = Description::createFromArray($array);
+        $this->assertEquals($array, $description->toArray());
+
+        //------------
+
+        $array = [
+            'title'  => 'Fade to Black',
+            'artist' => 'Disturbed',
+            'cover'  => 'Metallica',
+        ];
+
+        $description = Description::createFromArray($array);
+        $this->assertEquals($array, $description->toArray());
+
+        //------------
+
+        $array = [
+            'title'      => 'Violence',
+            'artist'     => 'Le Destroy',
+            'soundtrack' => 'Cyberpunk 2077'
+        ];
+
+        $description = Description::createFromArray($array);
+        $this->assertEquals($array, $description->toArray());
+    }
 }
