@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace WishgranterProject\MusicProbe;
 
 use WishgranterProject\MusicProbe\Helper\Validation;
@@ -38,15 +40,18 @@ class Description implements DescriptionInterface
         protected null|string|array $soundtrack = [],
         protected null|string|array $genre = [],
     ) {
-        $this->validateSringOrArrayOfStrings($artist, 'Artist');
-        $this->validateSringOrArrayOfStrings($featuring, 'Featuring');
-        $this->validateSringOrArrayOfStrings($soundtrack, 'Soundtrack');
-        $this->validateSringOrArrayOfStrings($genre, 'Genre');
+        $this->validateStringOrArrayOfStrings($artist, 'Artist');
+        $this->validateStringOrArrayOfStrings($featuring, 'Featuring');
+        $this->validateStringOrArrayOfStrings($soundtrack, 'Soundtrack');
+        $this->validateStringOrArrayOfStrings($genre, 'Genre');
 
-        $this->artist     = (array) $artist;
-        $this->featuring  = (array) $featuring;
-        $this->soundtrack = (array) $soundtrack;
-        $this->genre      = (array) $genre;
+        $this->artist     = array_filter((array) $artist);
+        $this->featuring  = array_filter((array) $featuring);
+        $this->soundtrack = array_filter((array) $soundtrack);
+        $this->genre      = array_filter((array) $genre);
+
+        $this->album      = (string) $album;
+        $this->cover      = (string) $cover;
     }
 
     /**
@@ -85,23 +90,51 @@ class Description implements DescriptionInterface
     public function __toString(): string
     {
         $array = [];
+        $core  = [];
 
-        if ($this->title) {
-            $array['title'] = $this->title;
+        if ($this->cover) {
+            if ($this->artist) {
+                $core['artist'] = implode(', ', $this->artist) . ' cover of';
+            }
+
+            if ($this->title) {
+                $core['title'] = $this->title;
+            }
+
+            if ($this->album) {
+                $core['album'] = $this->title
+                    ? "($this->album)"
+                    : $this->album;
+            }
+
+            $core['cover'] = 'by ' . $this->cover;
+        } else {
+            if ($this->title) {
+                $core['title'] = $this->title . ' by';
+            }
+
+            if ($this->artist) {
+                $core['artist'] = implode(', ', $this->artist);
+            }
+
+            if ($this->album) {
+                $core['album'] = $this->title
+                    ? "($this->album)"
+                    : $this->album;
+            }
         }
+        $array['core'] = implode(' ', $core);
 
-        if ($this->artist) {
-            $array['artist'] = $this->cover
-                ? 'cover by ' . $this->cover
-                : implode(', ', $this->artist);
-        }
-
-        if ($this->album) {
-            $array['album'] = $this->album;
+        if ($this->featuring) {
+            $array['featuring'] = 'featuring ' . implode(', ', $this->featuring);
         }
 
         if ($this->soundtrack) {
             $array['soundtrack'] = implode(', ', $this->soundtrack) . ' soundtrack';
+        }
+
+        if ($this->genre) {
+            $array['genre'] = implode(', ', $this->genre);
         }
 
         return implode(', ', $array);
@@ -170,37 +203,37 @@ class Description implements DescriptionInterface
     {
         $array = [];
 
-        if ($this->title) {
+        if (!empty($this->title)) {
             $array['title'] = $this->title;
         }
 
-        if ($this->artist) {
+        if (!empty($this->artist)) {
             $array['artist'] = count($this->artist) > 1
                 ? $this->artist
                 : reset($this->artist);
         }
 
-        if ($this->artist) {
+        if (!empty($this->featuring)) {
             $array['featuring'] = count($this->featuring) > 1
                 ? $this->featuring
                 : reset($this->featuring);
         }
 
-        if ($this->album) {
+        if (!empty($this->album)) {
             $array['album'] = $this->album;
         }
 
-        if ($this->cover) {
+        if (!empty($this->cover)) {
             $array['cover'] = $this->cover;
         }
 
-        if ($this->soundtrack) {
+        if (!empty($this->soundtrack)) {
             $array['soundtrack'] = count($this->soundtrack) > 1
                 ? $this->soundtrack
                 : reset($this->soundtrack);
         }
 
-        if ($this->genre) {
+        if (!empty($this->genre)) {
             $array['genre'] = count($this->genre) > 1
                 ? $this->genre
                 : reset($this->genre);
@@ -218,8 +251,8 @@ class Description implements DescriptionInterface
             !empty($array['title'])      ? $array['title']              : '',
             !empty($array['artist'])     ? (array) $array['artist']     : [],
             !empty($array['featuring'])  ? (array) $array['featuring']  : [],
-            !empty($array['album'])      ? $array['album']              : null,
-            !empty($array['cover'])      ? $array['cover']              : null,
+            !empty($array['album'])      ? $array['album']              : '',
+            !empty($array['cover'])      ? $array['cover']              : '',
             !empty($array['soundtrack']) ? (array) $array['soundtrack'] : [],
             !empty($array['genre'])      ? (array) $array['genre']      : [],
         );
@@ -234,7 +267,7 @@ class Description implements DescriptionInterface
      * @param string $label
      *   Human readable string to produce an error message.
      */
-    protected function validateSringOrArrayOfStrings(mixed $value, string $label): void
+    protected function validateStringOrArrayOfStrings(mixed $value, string $label): void
     {
         if (!(empty($value) || is_string($value) || Validation::is($value, 'string[]'))) {
             throw new \InvalidArgumentException($label . ' must be a string or array of strings');

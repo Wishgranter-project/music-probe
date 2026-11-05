@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace WishgranterProject\MusicProbe;
 
 abstract class ProbeAbstract
@@ -17,7 +19,7 @@ abstract class ProbeAbstract
     {
         $parts = [];
 
-        if (isset($description->title)) {
+        if (!empty($description->title)) {
             $parts[] = $description->title;
         }
 
@@ -29,7 +31,7 @@ abstract class ProbeAbstract
             $parts[] = $description->artist[0];
         }
 
-        if ($description->genre) {
+        if (!empty($description->genre)) {
             $parts[] = $description->genre[0];
         }
 

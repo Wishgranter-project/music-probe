@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace WishgranterProject\MusicProbe\Helper;
 
 /**
@@ -42,7 +44,7 @@ abstract class Validation
             return self::isArrayOf($value, [get_called_class(), 'isAlphanumeric']);
         }
 
-        if ($ofTheExpectedType == 'null') {
+        if ($ofTheExpectedType == 'null' || $ofTheExpectedType === null) {
             return is_null($value);
         }
 
