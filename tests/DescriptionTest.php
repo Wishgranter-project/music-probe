@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace WishgranterProject\MusicProbe\Tests;
 
 use PHPUnit\Framework\TestCase;
@@ -19,10 +21,10 @@ class DescriptionTest extends TestCase
             $genre  = 'Metal',
         );
 
-        $this->assertStringContainsStringIgnoringCase($title, $description);
-        $this->assertStringContainsStringIgnoringCase($artist, $description);
-        $this->assertStringContainsStringIgnoringCase($album, $description);
-        $this->assertStringContainsStringIgnoringCase($genre, $description);
+        $this->assertStringContainsStringIgnoringCase($title, (string) $description);
+        $this->assertStringContainsStringIgnoringCase($artist, (string) $description);
+        $this->assertStringContainsStringIgnoringCase($album, (string) $description);
+        $this->assertStringContainsStringIgnoringCase($genre, (string) $description);
 
         //------------
 
@@ -32,10 +34,10 @@ class DescriptionTest extends TestCase
             $featuring = ['The Basics', 'Monty Cotton'],
         );
 
-        $this->assertStringContainsStringIgnoringCase($title, $description);
-        $this->assertStringContainsStringIgnoringCase($artist, $description);
-        $this->assertStringContainsStringIgnoringCase($featuring[0], $description);
-        $this->assertStringContainsStringIgnoringCase($featuring[1], $description);
+        $this->assertStringContainsStringIgnoringCase($title, (string) $description);
+        $this->assertStringContainsStringIgnoringCase($artist, (string) $description);
+        $this->assertStringContainsStringIgnoringCase($featuring[0], (string) $description);
+        $this->assertStringContainsStringIgnoringCase($featuring[1], (string) $description);
 
         //------------
 
@@ -47,9 +49,9 @@ class DescriptionTest extends TestCase
             $cover     = 'Metallica',
         );
 
-        $this->assertStringContainsStringIgnoringCase($title, $description);
-        $this->assertStringContainsStringIgnoringCase($artist, $description);
-        $this->assertStringContainsStringIgnoringCase($cover, $description);
+        $this->assertStringContainsStringIgnoringCase($title, (string) $description);
+        $this->assertStringContainsStringIgnoringCase($artist, (string) $description);
+        $this->assertStringContainsStringIgnoringCase($cover, (string) $description);
 
         //------------
 
@@ -62,9 +64,9 @@ class DescriptionTest extends TestCase
             $soundtrack = 'Cyberpunk 2077'
         );
 
-        $this->assertStringContainsStringIgnoringCase($title, $description);
-        $this->assertStringContainsStringIgnoringCase($artist, $description);
-        $this->assertStringContainsStringIgnoringCase($soundtrack, $description);
+        $this->assertStringContainsStringIgnoringCase($title, (string) $description);
+        $this->assertStringContainsStringIgnoringCase($artist, (string) $description);
+        $this->assertStringContainsStringIgnoringCase($soundtrack, (string) $description);
     }
 
     public function testSerializationAndInstantiation()
