@@ -190,7 +190,9 @@ class Resource implements ResourceInterface
         }
 
         if (!empty($this->artist)) {
-            $array['artist'] = $this->artist;
+            $array['artist'] = count($this->artist) > 1
+                ? $this->artist
+                : reset($this->artist);
         }
 
         if (!empty($this->album)) {
